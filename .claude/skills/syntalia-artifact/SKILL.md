@@ -7,7 +7,7 @@ user-invocable: true
 
 # Artefacto Syntalia
 
-Convierte un plan, una propuesta o un análisis en una página que se revisa en unos dos minutos y donde se puede comentar cada punto. Toma como referencia la estructura de la skill `dev-artifact` de Atauri-Labs/otto-platform (pestañas, protocolo de comentarios), pero con la identidad de Syntalia. No modifica nada de ese repositorio.
+Convierte un plan, una propuesta o un análisis en una página que se revisa en unos dos minutos y donde se puede comentar cada punto.
 
 ## Pasos
 
