@@ -1,0 +1,410 @@
+<meta charset="utf-8">
+<title>{{Nombre del documento}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Raleway:wght@400;500;600;700&display=swap">
+<style>
+  /* SYNTALIA design tokens, from the Syntalia design system: navy always as the ground, cream for text and cold light,
+     gold only for what shines (joints, rings, trails, the thin line under a title). No other colours; surfaces and
+     hairlines are cream at low opacity. Precision: square blocks (radius 0), 4px only on small controls. Single dark look by design. */
+  :root {
+    --navy: #021557;
+    --navy-night: #010823;
+    --navy-edge: #00040F;
+    --cream: #F5F2E9;
+    --cream-muted: rgba(245, 242, 233, 0.72);
+    --gold: #D4AF37;
+    --background: var(--navy);
+    --foreground: var(--cream);
+    --card: rgba(245, 242, 233, 0.045);
+    --card-foreground: var(--cream);
+    --muted: rgba(245, 242, 233, 0.08);
+    --muted-foreground: var(--cream-muted);
+    --border: rgba(245, 242, 233, 0.14);
+    --primary: var(--gold);
+    --ring: var(--gold);
+    --success-foreground: var(--cream);
+    --radius: 0px;
+    --radius-sm: 4px;
+    --font-heading: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-sans: "Raleway", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "Raleway", system-ui, -apple-system, "Segoe UI", sans-serif;
+    color-scheme: dark;
+  }
+  .brand { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 18px; }
+  .brand .wordmark { font-family: var(--font-heading); font-weight: 700; font-size: 15px; letter-spacing: 0.32em; color: var(--cream); display: flex; align-items: center; gap: 12px; }
+  .brand .wordmark::before { content: ""; width: 22px; height: 3px; background: var(--gold); }
+  * { box-sizing: border-box; border-color: var(--border); }
+  body { margin: 0; overflow-x: clip; background: var(--background); color: var(--foreground); font-family: var(--font-sans); font-size: 16px; line-height: 1.55; padding-inline: 16px; padding-block: 18px 56px; -webkit-font-smoothing: antialiased; font-variant-numeric: tabular-nums; }
+  .page { max-width: 960px; margin-inline: auto; display: flex; flex-direction: column; gap: 24px; }
+  h1 { font-family: var(--font-heading); letter-spacing: 0.01em; font-size: 28px; line-height: 1.2; margin: 0; font-weight: 700; text-wrap: balance; }
+  h2 { font-family: var(--font-heading); font-size: 18px; margin: 0 0 12px; font-weight: 600; letter-spacing: 0.02em; }
+  h3 { font-family: var(--font-heading); font-size: 15px; margin: 0 0 6px; font-weight: 600; text-wrap: balance; }
+  p { margin: 0; max-width: 72ch; overflow-wrap: break-word; }
+  a { color: var(--foreground); text-underline-offset: 3px; text-decoration-color: var(--gold); }
+  code { font-family: var(--font-mono); font-size: 0.9em; font-weight: 600; background: var(--muted); padding: 1px 6px; border-radius: var(--radius-sm); }
+  /* Hero: navy-night with a vignette to navy-edge, a soft cream backlight and straight gold trails converging into a ring (the pieces fitting into place). */
+  header.sky { position: relative; isolation: isolate; overflow: hidden; margin-inline: calc(50% - 50vw); margin-top: -24px; padding: 52px max(16px, calc(50vw - 480px)) 72px; background: var(--navy-night); color: var(--cream); border-block: 1px solid var(--border); }
+  header.sky canvas { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; display: block; pointer-events: none; }
+  header.sky h1 { color: var(--cream); font-size: 36px; letter-spacing: 0.02em; max-width: 26ch; }
+  header.sky h1::after { content: ""; display: block; width: 88px; height: 3px; background: var(--gold); margin-top: 18px; }
+  header.sky a { color: var(--cream); }
+  header .meta { display: flex; flex-wrap: wrap; gap: 6px 18px; color: var(--cream-muted); font-size: 13px; margin-top: 16px; letter-spacing: 0.04em; }
+  header .goal { margin-top: 14px; color: var(--cream); opacity: .9; font-size: 17px; }
+  header.sky .badge { color: var(--gold); border-color: var(--gold); }
+  header.sky .files { color: var(--cream-muted); }
+  .badge { font-family: var(--font-heading); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; border: 1px solid var(--border); padding: 2px 9px; border-radius: var(--radius-sm); }
+  .files { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 12px; font-size: 13px; color: var(--muted-foreground); }
+  [role="tablist"] { display: flex; gap: 4px; border-bottom: 1px solid var(--border); overflow-x: auto; }
+  [role="tab"] { appearance: none; background: transparent; border: 0; border-bottom: 3px solid transparent; margin-bottom: -1px; padding: 12px 16px; font: inherit; font-family: var(--font-heading); font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted-foreground); cursor: pointer; white-space: nowrap; }
+  [role="tab"][aria-selected="true"] { color: var(--cream); border-bottom-color: var(--gold); }
+  [role="tab"]:hover { color: var(--cream); }
+  [role="tab"]:focus-visible { outline: 2px solid var(--ring); outline-offset: -2px; }
+  [role="tabpanel"] { padding-top: 24px; }
+  [role="tabpanel"]:focus-visible { outline: 2px solid var(--ring); }
+  .stack { display: flex; flex-direction: column; gap: 12px; }
+  .card { background: var(--card); color: var(--card-foreground); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+  .rules, .rec { color: var(--muted-foreground); font-size: 14.5px; }
+  .rules span, .rec span { font-family: var(--font-heading); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; margin-right: 8px; color: var(--cream); }
+  .rec span { color: var(--gold); }
+  .section-title { margin-top: 32px; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--border); }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; background: var(--card); }
+  th, td { text-align: left; vertical-align: top; padding: 9px 14px; border-bottom: 1px solid var(--border); }
+  th { font-family: var(--font-heading); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted-foreground); font-weight: 600; background: var(--navy-night); white-space: nowrap; position: sticky; top: 0; }
+  td.mono { font-weight: 600; white-space: nowrap; }
+  tr:last-child td { border-bottom: 0; }
+  .note { color: var(--muted-foreground); font-size: 14px; margin-bottom: 12px; }
+  .entity { margin-top: 28px; }
+  .entity h3 { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .entity .note { margin-bottom: 8px; }
+  .chip { font-family: var(--font-heading); font-size: 10.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 2px 8px; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--cream-muted); }
+  .chip.new { color: var(--gold); border-color: var(--gold); }
+  figure { margin: 0 0 16px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; }
+  figure .scroll { overflow-x: auto; }
+  figure svg { display: block; width: 100%; min-width: 700px; height: auto; color: var(--cream); }
+  figcaption { color: var(--muted-foreground); font-size: 13.5px; margin-top: 10px; }
+  svg text { font-family: var(--font-sans); font-size: 12px; fill: currentColor; }
+  svg .ttl { font-family: var(--font-heading); font-weight: 600; font-size: 12.5px; }
+  svg .box { fill: var(--navy-night); stroke: var(--cream-muted); stroke-width: 1; }
+  svg .hot { fill: var(--navy-night); stroke: var(--gold); stroke-width: 1.6; }
+  svg .grp { fill: none; stroke: var(--cream-muted); stroke-width: 1; stroke-dasharray: 5 4; opacity: .7; }
+  svg .lbl { fill: var(--cream-muted); font-size: 11px; }
+  svg .edge { stroke: var(--cream-muted); stroke-width: 1.2; fill: none; }
+  svg .edge.gen { stroke: var(--gold); stroke-dasharray: 5 3; }
+  svg marker path { fill: var(--cream-muted); }
+  .checks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .checks li { display: flex; gap: 12px; align-items: flex-start; }
+  .checks input { margin-top: 5px; accent-color: var(--gold); }
+  .checks small { display: block; color: var(--muted-foreground); font-size: 13px; }
+  /* Review bar: gold only on Approve. */
+  .review { position: sticky; top: 0; z-index: 5; background: var(--navy-night); color: var(--cream); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; }
+  .rv-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+  .rv-btn { appearance: none; font: inherit; font-family: var(--font-heading); font-weight: 600; font-size: 13px; letter-spacing: 0.04em; background: transparent; color: var(--cream); border: 1px solid var(--cream-muted); border-radius: var(--radius-sm); padding: 6px 14px; cursor: pointer; }
+  .rv-btn.primary { background: var(--gold); border-color: var(--gold); color: var(--navy-night); }
+  .rv-btn:disabled { opacity: .45; cursor: not-allowed; }
+  .rv-btn:focus-visible, .rv-field textarea:focus-visible, .rv-out:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
+  .rv-status { flex: 1 1 200px; margin: 0; font-size: 13px; color: var(--muted-foreground); }
+  .rv-out { width: 100%; height: 130px; font: 13px/1.45 var(--font-sans); background: var(--navy-edge); color: var(--cream); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px; resize: vertical; }
+  .rv-field { display: flex; flex-direction: column; gap: 4px; margin-top: 10px; }
+  .rv-field label { font-family: var(--font-heading); font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-foreground); }
+  .rv-field textarea { width: 100%; font: inherit; font-size: 14px; background: var(--navy-edge); color: var(--cream); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 7px 9px; resize: vertical; }
+  .rv-hint { min-height: 1em; font-size: 11.5px; color: var(--muted-foreground); }
+  @media (max-width: 600px) { header.sky h1 { font-size: 28px; } }
+</style>
+
+<div class="page">
+  <div class="brand"><span class="wordmark" aria-label="Syntalia">SYNTALIA</span></div>
+  <header class="sky">
+    <canvas id="sky" aria-hidden="true"></canvas>
+    <h1>{{Feature title}}</h1>
+    <div class="meta">
+      <a href="{{Task Board item or issue URL}}">{{Enlace opcional}}</a>
+      <span>{{Organización}} · versión {{n}}</span>
+      <span class="badge">Borrador, pendiente de aprobación</span>
+    </div>
+    <p class="goal">{{One-line goal}}</p>
+    <div class="files"><span>docs/specs/{{###-name}}/spec.md</span><span>plan.md</span><span>tasks.md</span></div>
+  </header>
+
+  <!-- Review bar: fill the data attributes (spec dir name, artifact URL, version label, round). Increment data-round on every republish. The script wires it; see references/feedback.md. -->
+  <section class="review" id="review" aria-label="Revisión" data-spec="{{###-name}}" data-artifact="{{artifact URL}}" data-version="{{v1}}" data-round="{{1}}">
+    <div class="rv-row">
+      <button type="button" class="rv-btn primary" id="rv-approve" disabled>Aprobar</button>
+      <button type="button" class="rv-btn" id="rv-send" disabled>Enviar comentarios a Claude</button>
+      <button type="button" class="rv-btn" id="rv-export">Exportar comentarios</button>
+      <p class="rv-status" id="rv-status" role="status" aria-live="polite">Conectando…</p>
+    </div>
+    <textarea class="rv-out" id="rv-out" readonly hidden aria-label="Comentarios exportados: copia este texto"></textarea>
+  </section>
+
+  <div>
+    <div role="tablist" aria-label="Secciones">
+      <button role="tab" id="tab-decisions" aria-controls="panel-decisions" aria-selected="true" tabindex="0">Decisiones</button>
+      <button role="tab" id="tab-diagrams" aria-controls="panel-diagrams" aria-selected="false" tabindex="-1">Diagramas</button>
+      <!-- Data model tab: only when the spec changes the schema. If omitted, remove it here, its panel below, and "data-model" from ids in the script. -->
+      <button role="tab" id="tab-data-model" aria-controls="panel-data-model" aria-selected="false" tabindex="-1">Modelo de datos</button>
+      <button role="tab" id="tab-questions" aria-controls="panel-questions" aria-selected="false" tabindex="-1">Preguntas abiertas</button>
+    </div>
+
+    <section role="tabpanel" id="panel-decisions" aria-labelledby="tab-decisions" tabindex="0">
+      <div class="stack">
+        <!-- One card per decision. Every reviewable item (decision D, question Q, diagram G, data-model table M) carries data-item (stable ID, never reused), data-kind (decision|question|diagram|data-model) and data-title; the script adds its comment field. -->
+        <article class="card" data-item="D1" data-kind="decision" data-title="{{Short decision title}}"><h3>{{Decision}}</h3><p>{{Why, one or two sentences}}</p><p class="rules"><span>Descarta</span> {{Alternative not taken}}</p></article>
+      </div>
+      <h2 class="section-title">{{Tabla de apoyo: riesgos, criterios, revisión}}</h2>
+      <div class="table-wrap"><table><thead><tr><th>{{Columna 1}}</th><th>{{Columna 2}}</th></tr></thead><tbody>
+        <tr><td>{{Finding}}</td><td>{{Fixed, or "Not applied: reason"}}</td></tr>
+      </tbody></table></div>
+      <div class="card rv-field"><label for="rv-general">Comentario general</label><textarea id="rv-general" rows="3"></textarea></div>
+    </section>
+
+    <section role="tabpanel" id="panel-diagrams" aria-labelledby="tab-diagrams" tabindex="0" hidden>
+      <!-- One figure per diagram. Boxes use .box, touched/new things .hot, groups .grp, labels .lbl, edges .edge (.gen for generated paths). Keep min-width 700px inside .scroll. -->
+      <figure data-item="G1" data-kind="diagram" data-title="{{Short diagram title}}">
+        <div class="scroll">
+          <svg viewBox="0 0 760 200" role="img" aria-label="{{What the diagram shows}}">
+            <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="currentColor"/></marker></defs>
+            <rect class="box" x="40" y="70" width="140" height="44" rx="4"/><text x="110" y="96" text-anchor="middle">{{member A}}</text>
+            <rect class="hot" x="300" y="70" width="140" height="44" rx="4"/><text x="370" y="96" text-anchor="middle">{{member B}}</text>
+            <line class="edge" x1="180" y1="92" x2="298" y2="92" marker-end="url(#ar)"/><text class="lbl" x="190" y="84">{{message}}</text>
+          </svg>
+        </div>
+        <figcaption>{{One-line caption}}</figcaption>
+      </figure>
+    </section>
+
+    <section role="tabpanel" id="panel-data-model" aria-labelledby="tab-data-model" tabindex="0" hidden>
+      <p class="note">{{Scope of the change and the migration it ships in}}</p>
+      <!-- One .entity block per database table, never one combined table. Chip: new | altered | dropped (.chip.new is the only coloured variant; others use plain .chip). -->
+      <div class="entity" data-item="M1" data-kind="data-model" data-title="{{table}}"><h3><code>{{table}}</code> <span class="chip new">Nueva</span></h3><p class="note">{{What the table holds, scoping key}}</p><div class="table-wrap"><table><thead><tr><th>Columna o restricción</th><th>Cambio</th><th>Tipo y restricciones</th><th>De dónde sale el dato</th></tr></thead><tbody>
+        <tr><td class="mono">{{column}}</td><td>Añadida</td><td>{{type}}</td><td>{{source}}</td></tr>
+      </tbody></table></div></div>
+    </section>
+
+    <section role="tabpanel" id="panel-questions" aria-labelledby="tab-questions" tabindex="0" hidden>
+      <div class="stack">
+        <article class="card" data-item="Q1" data-kind="question" data-title="{{Short question title}}"><h3>{{Question}}</h3><p>{{Context}}</p><p class="rec"><span>Recomendado</span> {{Default}}</p></article>
+      </div>
+      <h2 class="section-title">Criterios de aceptación</h2>
+      <ul class="checks">
+        <li><input type="checkbox" disabled aria-label="{{Criterion}}"><span>{{Criterion}}<small>{{Tasks and success criteria covering it}}</small></span></li>
+      </ul>
+    </section>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var ids = ["decisions", "diagrams", "data-model", "questions"];
+    var tabs = ids.map(function (id) { return document.getElementById("tab-" + id); });
+    function select(id, focus) {
+      if (ids.indexOf(id) < 0) id = "decisions";
+      ids.forEach(function (key, i) {
+        var on = key === id;
+        tabs[i].setAttribute("aria-selected", on ? "true" : "false");
+        tabs[i].tabIndex = on ? 0 : -1;
+        document.getElementById("panel-" + key).hidden = !on;
+        if (on && focus) tabs[i].focus();
+      });
+    }
+    tabs.forEach(function (tab, i) {
+      tab.addEventListener("click", function () { location.hash = "#" + ids[i]; select(ids[i]); });
+      tab.addEventListener("keydown", function (e) {
+        var next = null;
+        if (e.key === "ArrowRight") next = (i + 1) % ids.length;
+        if (e.key === "ArrowLeft") next = (i + ids.length - 1) % ids.length;
+        if (e.key === "Home") next = 0;
+        if (e.key === "End") next = ids.length - 1;
+        if (next === null) return;
+        e.preventDefault();
+        location.hash = "#" + ids[next];
+        select(ids[next], true);
+      });
+    });
+    window.addEventListener("hashchange", function () { select(location.hash.slice(1)); });
+    select(location.hash.slice(1));
+  })();
+</script>
+
+<script>
+  /* Review: a comment field under each [data-item], autosaved to the artifact db (doc review/round-<N>, N from data-round); Send and Approve
+     notify the Claude session through comments; Export is the always-available fallback. Protocol: references/feedback.md. UI text in Spanish. */
+  (function () {
+    var bar = document.getElementById("review"), statusEl = document.getElementById("rv-status"), general = document.getElementById("rv-general");
+    var out = document.getElementById("rv-out"), send = document.getElementById("rv-send"), approve = document.getElementById("rv-approve");
+    var fields = {}, ref = null, comments = null, downloads = null, round = parseInt(bar.dataset.round, 10) || 1, approved = false, approvedAt = null;
+    var dirty = false, pending = 0, timer = 0, chain = Promise.resolve();
+    function say(t) { statusEl.textContent = t; }
+    function mark(t) { Object.keys(fields).forEach(function (id) { fields[id].hint.textContent = fields[id].ta.value ? t : ""; }); }
+    function cap(n) { try { return Promise.resolve(window.claude.use(n)).then(function (v) { return v || null; }, function () { return null; }); } catch (e) { return Promise.resolve(null); } }
+    var arm = 0;
+    function disarm() { clearTimeout(arm); arm = 0; approve.textContent = "Aprobar"; }
+    function code(e) { return (e && e.code) || "error"; }
+
+    function changed() { dirty = true; mark("Sin guardar"); clearTimeout(timer); if (ref) timer = setTimeout(save, 800); }
+    [].forEach.call(document.querySelectorAll("[data-item]"), function (el) {
+      var id = el.dataset.item, wrap = document.createElement("div"), lab = document.createElement("label"), ta = document.createElement("textarea"), hint = document.createElement("small");
+      wrap.className = "rv-field"; hint.className = "rv-hint"; ta.rows = 2; ta.id = "rv-c-" + id; lab.htmlFor = ta.id; lab.textContent = "Comentario sobre " + id;
+      wrap.append(lab, ta, hint); el.append(wrap); fields[id] = { el: el, ta: ta, hint: hint };
+      ta.addEventListener("input", changed);
+    });
+    general.addEventListener("input", changed);
+
+    function snapshot() {
+      var items = {}, s;
+      Object.keys(fields).forEach(function (id) {
+        var c = fields[id].ta.value.trim(), d = fields[id].el.dataset;
+        if (c) items[id] = { kind: d.kind, title: d.title, comment: c };
+      });
+      s = { round: round, approved: approved, items: items, general: general.value.trim(), updatedAt: new Date().toISOString() };
+      if (approvedAt) s.approvedAt = approvedAt;
+      return s;
+    }
+    function apply(d) {
+      approved = !!d.approved; approvedAt = d.approvedAt || null;
+      Object.keys(fields).forEach(function (id) { fields[id].ta.value = (d.items && d.items[id] && d.items[id].comment) || ""; });
+      general.value = d.general || ""; mark("Guardado");
+      say((approved ? "Aprobado" : "Guardado") + ", ronda " + round);
+    }
+    function save() {
+      clearTimeout(timer);
+      if (!ref) return Promise.resolve(false);
+      var s = snapshot(); dirty = false; pending++;
+      chain = chain.then(function () { return ref.set(s); }).then(function () { pending--; if (!dirty) { mark("Guardado"); say("Guardado"); } return true; },
+        function (e) { pending--; dirty = true; say("No guardado (" + code(e) + ")"); return false; });
+      return chain;
+    }
+
+    function reveal() {
+      var s = snapshot(), d = bar.dataset, text;
+      text = "SPEC-FEEDBACK v1\n\n```json\n" + JSON.stringify({ type: "spec-feedback", version: 1, spec: d.spec, artifact: d.artifact, overviewVersion: d.version, round: round, approved: approved, general: s.general,
+        items: Object.keys(s.items).map(function (id) { var i = s.items[id]; return { id: id, kind: i.kind, title: i.title, comment: i.comment }; }), exportedAt: s.updatedAt }, null, 2) + "\n```\n";
+      out.value = text; out.hidden = false; out.focus(); out.select();
+      try { navigator.clipboard.writeText(text).catch(function () {}); } catch (e) {}
+      return text;
+    }
+    document.getElementById("rv-export").addEventListener("click", function () {
+      var text = reveal(), name = bar.dataset.spec + "-feedback.md", blob = new Blob([text], { type: "text/markdown" }), a;
+      try {
+        if (downloads) Promise.resolve(downloads.save({ filename: name, data: blob })).catch(function () {});
+        else { a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; a.click(); }
+      } catch (e) {}
+      say("Exportación lista: copia el texto de abajo o usa el archivo descargado.");
+    });
+
+    async function submit(final) {
+      var ok, st, k, text;
+      if (final) { approved = true; approvedAt = new Date().toISOString(); }
+      ok = await save(); k = Object.keys(snapshot().items).length;
+      st = ok && comments ? await comments.canSendToClaude() : "off";
+      if (st !== "available") {
+        say((ok ? "Guardado, pero Claude no está escuchando (" + st + ")" : "Comentarios en vivo no disponibles") + ". Copia la exportación de abajo para Claude.");
+        if (final || !ok) reveal();
+        return;
+      }
+      text = final ? "SPEC-FEEDBACK round " + round + ": approved=true, " + k + " comments. Read db review/round-" + round + "."
+        : "SPEC-FEEDBACK round " + round + ": " + k + " comments, approved=false. Read db review/round-" + round + ".";
+      try { await comments.sendToClaude({ anchor: await comments.anchorFor(bar), text: text }); say((final ? "Aprobación enviada a Claude" : "Enviado a Claude") + ", ronda " + round); }
+      catch (e) { say("Guardado, pero el envío falló (" + code(e) + "). Usa Exportar."); if (final) reveal(); }
+    }
+    send.addEventListener("click", function () { submit(false); });
+    approve.addEventListener("click", function () {
+      if (arm) { disarm(); submit(true); return; }
+      approve.textContent = "Confirmar aprobación"; say("Pulsa Confirmar aprobación en 6 s para aprobar el plan.");
+      arm = setTimeout(function () { disarm(); say("Aprobación cancelada."); }, 6000);
+    });
+
+    Promise.all([cap("db"), cap("comments"), cap("downloads")]).then(function (c) {
+      comments = c[1]; downloads = c[2]; ref = c[0] && c[0].doc("review/round-" + round);
+      approve.disabled = false; send.disabled = !ref;
+      if (!ref) { mark("No se guarda aquí, usa Exportar"); say("Comentarios en vivo no disponibles aquí: usa Exportar"); return; }
+      say("Listo, ronda " + round);
+      try { ref.onSnapshot(function (s) { if (!dirty && !pending && s.exists) apply(s.data()); }); } catch (e) {}
+      if (dirty) save();
+    });
+  })();
+</script>
+
+<script>
+  /* Syntalia hero: navy-night ground with a vignette to navy-edge, a soft cream backlight (about 13% at its centre),
+     straight gold trails converging into a gold ring (loose pieces fitting into place) and a few gold motes travelling
+     along the trails. Precision, not magic: no sparkles, no smoke, no colours outside the palette. Everything dims near
+     the header text so it stays readable. With prefers-reduced-motion it is drawn once; drawing pauses off-screen. */
+  (function () {
+    var canvas = document.getElementById("sky");
+    if (!canvas || !canvas.getContext) return;
+    var header = canvas.parentElement, ctx = canvas.getContext("2d");
+    var css = getComputedStyle(document.documentElement);
+    function tok(n, f) { return css.getPropertyValue(n).trim() || f; }
+    var C = { night: tok("--navy-night", "#010823"), edge: tok("--navy-edge", "#00040F"), gold: tok("--gold", "#D4AF37"), cream: tok("--cream", "#F5F2E9") };
+    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)");
+    function rng(seed) { var a = seed >>> 0; return function () { var t = a = (a + 0x6d2b79f5) >>> 0; t = Math.imul(t ^ (t >>> 15), 1 | t); t ^= t + Math.imul(t ^ (t >>> 7), 61 | t); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+    var W = 0, H = 0, focus = { x: 0, y: 0 }, trails = [], quiet = [], raf = 0, last = 0, time = 0, visible = true;
+
+    function build() {
+      var r = rng(20261124); trails = [];
+      focus = { x: W * 0.8, y: H * 0.46 };
+      for (var i = 0; i < 9; i++) {
+        var fromLeft = i % 3 !== 0, sx = fromLeft ? -20 : W * (0.35 + r() * 0.4), sy = fromLeft ? H * (0.05 + r() * 0.9) : (i % 2 ? -20 : H + 20);
+        trails.push({ sx: sx, sy: sy, speed: 0.05 + r() * 0.06, phase: r(), width: 0.6 + r() * 0.9 });
+      }
+    }
+    function measure() {
+      var box = header.getBoundingClientRect();
+      quiet = Array.prototype.map.call(header.querySelectorAll("h1, .meta > *, .goal, .files"), function (el) {
+        var b = el.getBoundingClientRect(); return { x: b.left - box.left, y: b.top - box.top, w: b.width, h: b.height };
+      });
+    }
+    function calm(x, y) {
+      var k = 1;
+      for (var i = 0; i < quiet.length; i++) {
+        var q = quiet[i], d = Math.hypot(Math.max(q.x - x, 0, x - (q.x + q.w)), Math.max(q.y - y, 0, y - (q.y + q.h)));
+        if (d < 40) k = Math.min(k, 0.12 + 0.88 * (d / 40));
+      }
+      return k;
+    }
+    function resize() {
+      var b = header.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = b.width; H = b.height;
+      canvas.width = Math.max(1, Math.round(W * dpr)); canvas.height = Math.max(1, Math.round(H * dpr));
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      build(); measure(); draw();
+    }
+    function ground() {
+      var g = ctx.createRadialGradient(W * 0.55, H * 0.5, 0, W * 0.55, H * 0.5, Math.hypot(W, H) * 0.6);
+      g.addColorStop(0, C.night); g.addColorStop(1, C.edge);
+      ctx.globalAlpha = 1; ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+      var b = ctx.createRadialGradient(focus.x, focus.y, 0, focus.x, focus.y, Math.min(W, H) * 0.9);
+      b.addColorStop(0, C.cream); b.addColorStop(1, C.night);
+      ctx.globalAlpha = 0.13; ctx.fillStyle = b; ctx.beginPath(); ctx.arc(focus.x, focus.y, Math.min(W, H) * 0.9, 0, Math.PI * 2); ctx.fill();
+    }
+    function draw() {
+      ctx.clearRect(0, 0, W, H); ground();
+      for (var i = 0; i < trails.length; i++) {
+        var t = trails[i];
+        var lg = ctx.createLinearGradient(t.sx, t.sy, focus.x, focus.y);
+        lg.addColorStop(0, "rgba(212,175,55,0)"); lg.addColorStop(1, C.gold);
+        ctx.globalAlpha = 0.42; ctx.strokeStyle = lg; ctx.lineWidth = t.width;
+        ctx.beginPath(); ctx.moveTo(t.sx, t.sy); ctx.lineTo(focus.x, focus.y); ctx.stroke();
+        var p = (t.phase + time * t.speed) % 1, mx = t.sx + (focus.x - t.sx) * p, my = t.sy + (focus.y - t.sy) * p;
+        var a = Math.sin(Math.PI * p) * calm(mx, my);
+        if (a > 0.02) { ctx.globalAlpha = 0.85 * a; ctx.fillStyle = C.gold; ctx.beginPath(); ctx.arc(mx, my, 1.6, 0, Math.PI * 2); ctx.fill(); }
+      }
+      ctx.globalAlpha = 0.95; ctx.strokeStyle = C.gold; ctx.lineWidth = 1.6;
+      ctx.beginPath(); ctx.arc(focus.x, focus.y, 14, 0, Math.PI * 2); ctx.stroke();
+      ctx.globalAlpha = 0.5; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(focus.x, focus.y, 26 + 3 * Math.sin(time * 0.8), 0, Math.PI * 2); ctx.stroke();
+      ctx.globalAlpha = 1; ctx.fillStyle = C.gold; ctx.beginPath(); ctx.arc(focus.x, focus.y, 2.4, 0, Math.PI * 2); ctx.fill();
+    }
+    function frame(ts) { raf = 0; var dt = last ? Math.min(ts - last, 100) : 16; last = ts; time += dt / 1000; draw(); loop(); }
+    function loop() { if (!raf && visible && !(reduce && reduce.matches) && document.visibilityState !== "hidden") raf = requestAnimationFrame(frame); }
+    function stop() { if (raf) cancelAnimationFrame(raf); raf = 0; last = 0; }
+    resize(); loop();
+    if (window.ResizeObserver) new ResizeObserver(resize).observe(header); else addEventListener("resize", resize);
+    if (window.IntersectionObserver) new IntersectionObserver(function (e) { visible = e[0].isIntersecting; visible ? loop() : stop(); }).observe(header);
+    document.addEventListener("visibilitychange", function () { document.visibilityState === "hidden" ? stop() : loop(); });
+    if (reduce && reduce.addEventListener) reduce.addEventListener("change", function () { reduce.matches ? (stop(), draw()) : loop(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(); draw(); });
+  })();
+</script>
